@@ -15,7 +15,8 @@ const CABECALHO = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição
 const detectarMarca = nome => (MARCAS.find(m => new RegExp(m.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"),"i").test(nome)) || (nome.split(" ")[0]||"")).trim();
 const detectarTamanho = nome => { const m = (nome||"").match(/(\d+[.,]?\d*)\s?(ml|kg|g|l)\b/i); return m ? m[1].replace(".","")+m[2].toLowerCase() : ""; };
 const br = n => (n === "" || n == null) ? "" : String(n).replace(".", ",");
-const csvEscape = v => { v = String(v ?? ""); return /[;"\n]/.test(v) ? '"'+v.replace(/"/g,'""')+'"' : v; };
+const csvEscape = v => { v = String(v ?? "").replace(/[\r\n]+/g, " ").trim(); return /[;"]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+const semAcento = s => String(s ?? "").normalize("NFD").replace(/\p{Diacritic}/gu, "");
 
 (async () => {
   const browser = await chromium.launch();
@@ -25,7 +26,8 @@ const csvEscape = v => { v = String(v ?? ""); return /[;"\n]/.test(v) ? '"'+v.re
       const page = await browser.newPage();
       try {
         await page.goto(site.url(item.termo), { waitUntil: "domcontentloaded", timeout: 30000 });
-        await page.waitForTimeout(site.espera || 2500);
+        await page.waitForLoadState("networkidle", { timeout: 8000 }).catch(() => {});
+        await page.waitForTimeout(site.espera || 3500);
         if (site.prepararBusca) await site.prepararBusca(page, item.termo);
         let prods = await site.extrair(page);
         prods = prods
@@ -33,8 +35,8 @@ const csvEscape = v => { v = String(v ?? ""); return /[;"\n]/.test(v) ? '"'+v.re
           .filter(p => p.preco_regular);
         // teto de 12 por família/site (evita capturar demais)
         for (const p of prods.slice(0, 12)) {
-          linhas.push({ Data_coleta: HOJE, Canal: site.canal, Site: site.nome, Categoria: item.cat,
-            Marca: p.marca, "Descrição": p.descricao, Tamanho: p.tamanho,
+          linhas.push({ Data_coleta: HOJE, Canal: site.canal, Site: semAcento(site.nome), Categoria: semAcento(item.cat),
+            Marca: semAcento(p.marca), "Descrição": semAcento(p.descricao), Tamanho: p.tamanho,
             "Preço regular": br(p.preco_regular), "Preço promo": br(p.preco_promo), Link: p.link });
         }
         console.log(`[OK] ${site.nome} / ${item.termo}: ${prods.length} itens`);

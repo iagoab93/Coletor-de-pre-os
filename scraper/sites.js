@@ -11,8 +11,12 @@ function extratorGenerico(seletorAncora) {
       .replace(/R\$\s*[\d.,]+\s*\/\s*(l|kg|ml|g|milímetro|mililitro|unidade|un)/gi, " "); // preço por unidade
     const seen = {}, res = [];
     document.querySelectorAll(sel).forEach(a => {
-      const nome = (a.innerText || "").trim();
+      const raw = (a.innerText || "");
+      if (/patrocinado/i.test(raw)) return;                       // ignora anúncio
       const link = (a.href || "").split("?")[0];
+      const linhas = raw.split("\n").map(s => s.trim()).filter(Boolean);
+      let nome = (linhas.find(l => l.length > 5 && /[a-zà-ÿ]/i.test(l) && !/^r\$/i.test(l) && !/^-?\d+%/.test(l)) || linhas[0] || "");
+      nome = nome.replace(/[\r\n;]+/g, " ").trim().slice(0, 90);   // só a 1a linha, sem ; nem quebra
       if (!nome || nome.length < 6 || seen[link]) return;
       let el = a, txt = "";
       for (let i = 0; i < 6 && el; i++) { el = el.parentElement; if (el && /R\$/.test(el.innerText || "")) { txt = el.innerText; break; } }
@@ -30,11 +34,11 @@ function extratorGenerico(seletorAncora) {
 }
 
 module.exports = [
-  { nome: "Araújo", canal: "Farmácia",
+  { nome: "Araújo", canal: "Farmácia", espera: 5000,
     url: t => `https://www.araujo.com.br/busca?q=${encodeURIComponent(t)}`,
     extrair: extratorGenerico('a[href$=".html"]') },
 
-  { nome: "Drogasil", canal: "Farmácia",
+  { nome: "Drogasil", canal: "Farmácia", espera: 5000,
     url: t => `https://www.drogasil.com.br/search?w=${encodeURIComponent(t)}`,
     extrair: extratorGenerico('a[href*=".html"]') },
 

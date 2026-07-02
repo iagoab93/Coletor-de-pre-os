@@ -19,7 +19,8 @@ function lerCSV(file){ if(!fs.existsSync(file)) return [];
   const ls=t.split("\n"); const h=parseLinha(ls[0]);
   return ls.slice(1).filter(Boolean).map(l=>{const c=parseLinha(l);const o={};h.forEach((k,i)=>o[k]=c[i]??"");return o;}); }
 
-function normalizar(row, fonte){ const o={}; UNI.forEach(k=>o[k]=row[k]??""); if(!o.Fonte) o.Fonte=fonte; if(!o.Formato) o.Formato="Unidade"; return o; }
+const semAcento = s => String(s ?? "").normalize("NFD").replace(/\p{Diacritic}/gu, "");
+function normalizar(row, fonte){ const o={}; UNI.forEach(k=>o[k]=semAcento(row[k]??"")); if(!o.Fonte) o.Fonte=fonte; if(!o.Formato) o.Formato="Unidade"; return o; }
 
 const github = lerCSV(path.join(DATA,"precos.csv")).map(r=>normalizar(r,"GitHub"));
 const claudeArquivos = ["marketplaces.csv","beleza.csv"];
