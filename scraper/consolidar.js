@@ -23,7 +23,7 @@ const semAcento = s => String(s ?? "").normalize("NFD").replace(/\p{Diacritic}/g
 function normalizar(row, fonte){ const o={}; UNI.forEach(k=>o[k]=semAcento(row[k]??"")); if(!o.Fonte) o.Fonte=fonte; if(!o.Formato) o.Formato="Unidade"; return o; }
 
 const github = lerCSV(path.join(DATA,"precos.csv")).map(r=>normalizar(r,"GitHub"));
-const claudeArquivos = ["marketplaces.csv","beleza.csv"];
+const claudeArquivos = ["marketplaces.csv","beleza.csv","super-so.csv"];
 let mkt = [];
 for (const f of claudeArquivos) mkt = mkt.concat(lerCSV(path.join(DATA,f)).map(r=>normalizar(r,"Claude Code")));
 
