@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monitor de Preços Avante</title>
+<style>
+  :root{--navy:#1f3864;--green:#2e7d32;--bg:#f6f8fb;--line:#e2e6ee}
+  *{box-sizing:border-box}
+  body{font-family:Arial,Helvetica,sans-serif;margin:0;background:var(--bg);color:#1a1a1a}
+  header{background:var(--navy);color:#fff;padding:16px 20px}
+  header h1{margin:0;font-size:18px}
+  header small{opacity:.8}
+  .filtros{display:flex;gap:8px;flex-wrap:wrap;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0}
+  .filtros select,.filtros input{padding:8px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+  .wrap{padding:16px 20px;overflow:auto}
+  table{border-collapse:collapse;width:100%;background:#fff;font-size:13px}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;white-space:nowrap}
+  th{background:var(--navy);color:#fff;position:sticky;top:0;cursor:pointer}
+  tr:nth-child(even){background:#f2f5fa}
+  tr.avante{background:#fff7e6!important;font-weight:bold}
+  .promo{color:var(--green);font-weight:bold}
+  a{color:var(--navy)}
+  .tag{font-size:11px;color:#666;padding:0 20px 20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>Monitor de Preços Avante</h1>
+  <small id="meta">carregando…</small>
+</header>
+<div class="filtros">
+  <select id="fCanal"><option value="">Todos os canais</option></select>
+  <select id="fCategoria"><option value="">Todas as categorias</option></select>
+  <select id="fSite"><option value="">Todos os sites</option></select>
+  <select id="fMarca"><option value="">Todas as marcas</option></select>
+  <select id="fFonte"><option value="">Todas as fontes</option></select>
+  <select id="fFormato"><option value="">Unidade + Kit</option><option value="Unidade">Só unidades</option><option value="Kit">Só kits</option></select>
+  <input id="busca" placeholder="buscar na descrição…" size="24">
+  <label style="font-size:13px"><input type="checkbox" id="soPromo"> só promoção</label>
+</div>
+<div class="wrap"><table id="tab"><thead></thead><tbody></tbody></table></div>
+<div class="tag">Dados versionados no Git · atualizados pelo GitHub Actions · R$/100 = preço por 100ml/g</div>
+
+<script>
+const COLS = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição","Tamanho","Preço regular","Preço promo","R$/100","Link","Fonte","Formato"];
+let dados=[];
+const num = s => parseFloat(String(s||"").replace(".","").replace(",","."))||0;
+function porUnidade(r){
+  const t=(r.Tamanho||"").match(/(\d+)\s*(ml|g|l|kg)/i); if(!t) return "";
+  let q=+t[1]; const u=t[2].toLowerCase(); if(u==="l"||u==="kg") q*=1000;
+  const p=num(r["Preço promo"])||num(r["Preço regular"]); if(!p||!q) return "";
+  return "R$ "+(p/q*100).toFixed(2).replace(".",",");
+}
+function opc(sel,vals){const s=document.getElementById(sel);[...new Set(vals)].filter(Boolean).sort().forEach(v=>{const o=document.createElement("option");o.value=o.textContent=v;s.appendChild(o)});}
+function render(){
+  const fC=fCanal.value,fCat=fCategoria.value,fS=fSite.value,fM=fMarca.value,fF=fFonte.value,fFo=fFormato.value,q=busca.value.toLowerCase(),sp=soPromo.checked;
+  const rows=dados.filter(r=>(!fC||r.Canal===fC)&&(!fCat||r.Categoria===fCat)&&(!fS||r.Site===fS)&&(!fM||r.Marca===fM)&&(!fF||r.Fonte===fF)&&(!fFo||(r.Formato||"").startsWith(fFo))
+    &&(!q||(r["Descrição"]||"").toLowerCase().includes(q))&&(!sp||r["Preço promo"]));
+  const thead="<tr>"+COLS.map(c=>`<th>${c}</th>`).join("")+"</tr>";
+  const body=rows.map(r=>{
+    const av=/avante/i.test(r.Marca)?"avante":"";
+    const link=r.Link?`<a href="${r.Link}" target="_blank">abrir</a>`:"";
+    const promo=r["Preço promo"]?`<span class="promo">${r["Preço promo"]}</span>`:"";
+    return `<tr class="${av}"><td>${r.Data_coleta}</td><td>${r.Canal}</td><td>${r.Site}</td><td>${r.Categoria}</td>
+      <td>${r.Marca}</td><td>${r["Descrição"]}</td><td>${r.Tamanho}</td><td>${r["Preço regular"]}</td>
+      <td>${promo}</td><td>${porUnidade(r)}</td><td>${link}</td><td>${r.Fonte||""}</td><td>${r.Formato||""}</td></tr>`;
+  }).join("");
+  tab.querySelector("thead").innerHTML=thead;
+  tab.querySelector("tbody").innerHTML=body;
+  meta.textContent=`${rows.length} de ${dados.length} linhas`;
+}
+["fCanal","fCategoria","fSite","fMarca","fFonte","fFormato"].forEach(id=>document.getElementById(id).onchange=render);
+busca.oninput=render; soPromo.onchange=render;
+fetch("./data/precos.json").then(r=>r.json()).then(d=>{
+  dados=d;
+  opc("fCanal",d.map(r=>r.Canal));opc("fCategoria",d.map(r=>r.Categoria));
+  opc("fSite",d.map(r=>r.Site));opc("fMarca",d.map(r=>r.Marca));opc("fFonte",d.map(r=>r.Fonte));
+  render();
+}).catch(e=>meta.textContent="Ainda não há data/precos.json (rode a coleta uma vez).");
+</script>
+</body>
+</html>
