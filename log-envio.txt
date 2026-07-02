@@ -1,1 +1,15 @@
 ---- 02/07/2026 14:28:54,02 ---- 
+warning: in the working copy of 'atualizar-github-auto.bat', LF will be replaced by CRLF the next time Git touches it
+[main 2eb40d1] atualizar dados automatico
+ 2 files changed, 8 insertions(+)
+ create mode 100644 atualizar-github-auto.bat
+ create mode 100644 log-envio.txt
+fatal: The current branch main has no upstream branch.
+To push the current branch and set the remote as upstream, use
+
+    git push --set-upstream origin main
+
+To have this happen automatically for branches without a tracking
+upstream, see 'push.autoSetupRemote' in 'git help config'.
+
+---- 02/07/2026 14:29:10,78 ---- 
