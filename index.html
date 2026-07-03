@@ -40,8 +40,9 @@
   <label style="font-size:13px"><input type="checkbox" id="soPromo"> só promoção</label>
 </div>
 <div class="wrap"><table id="tab"><thead></thead><tbody></tbody></table></div>
-<div class="tag">Dados versionados no Git · atualizados pelo GitHub Actions · R$/100 = preço por 100ml/g</div>
+<div class="tag">Monitor de Preços Avante · coleta local semanal · R$/100 = preço por 100ml/g</div>
 
+<script src="./data/precos-data.js"></script>
 <script>
 const COLS = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição","Tamanho","Preço regular","Preço promo","R$/100","Link","Fonte","Formato"];
 let dados=[];
@@ -72,12 +73,14 @@ function render(){
 }
 ["fCanal","fCategoria","fSite","fMarca","fFonte","fFormato"].forEach(id=>document.getElementById(id).onchange=render);
 busca.oninput=render; soPromo.onchange=render;
-fetch("./data/precos.json").then(r=>r.json()).then(d=>{
+function iniciar(d){
   dados=d;
   opc("fCanal",d.map(r=>r.Canal));opc("fCategoria",d.map(r=>r.Categoria));
   opc("fSite",d.map(r=>r.Site));opc("fMarca",d.map(r=>r.Marca));opc("fFonte",d.map(r=>r.Fonte));
   render();
-}).catch(e=>meta.textContent="Ainda não há data/precos.json (rode a coleta uma vez).");
+}
+if(window.DADOS){ iniciar(window.DADOS); }
+else fetch("./data/precos.json").then(r=>r.json()).then(iniciar).catch(e=>meta.textContent="Ainda não há dados. Rode coletar-precos.bat uma vez.");
 </script>
 </body>
 </html>

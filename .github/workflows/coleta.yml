@@ -1,17 +1,24 @@
 name: Coleta de precos
 
+# O MODELO PRINCIPAL agora é LOCAL (roda no PC com navegador real, pega todos os sites).
+# Este workflow fica como BACKUP na nuvem, mas:
+#   - só coleta os sites "faceis" (Pague Menos, Panvel, Carrefour, Lojas Rede, Super So);
+#   - Araujo, Drogasil, Mercado Livre e Amazon bloqueiam o IP de datacenter do GitHub.
+# Por isso o agendamento automatico fica DESLIGADO (evita commitar dados parciais e
+# conflitar com o seu PC). Rode manualmente pelo botao "Run workflow" se quiser.
+
 on:
-  schedule:
-    - cron: "0 9 * * 1"        # toda segunda 09:00 UTC (~06:00 BRT). Ajuste como quiser.
-  workflow_dispatch: {}         # permite rodar manualmente pelo botão "Run workflow"
+  workflow_dispatch: {}
+  # schedule:
+  #   - cron: "0 9 * * 1"   # (desligado) toda segunda 09:00 UTC
 
 permissions:
-  contents: write               # pra commitar os dados de volta no repo
+  contents: write
 
 jobs:
   coletar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30         # guardrail: aborta se passar de 30 min
+    timeout-minutes: 55
     steps:
       - uses: actions/checkout@v4
 
@@ -36,5 +43,5 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/
-          git commit -m "coleta $(date +%F)" || echo "sem mudancas"
+          git commit -m "coleta nuvem $(date +%F)" || echo "sem mudancas"
           git push

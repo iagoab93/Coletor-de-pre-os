@@ -1,1 +1,8 @@
 node_modules/
+# arquivos temporários/lock do Excel e do sistema
+~$*
+*.tmp
+Thumbs.db
+.DS_Store
+# logs de execução (não precisam ir pro repositório)
+log-coleta.txt
