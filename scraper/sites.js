@@ -124,16 +124,82 @@ async function extratorSuperSo(page) {
   });
 }
 
+// Big Mais (Angular SPA) — Super ABC, Rex Delivery, Rena em Casa (supermercados MG). URL /p/busca/<termo>.
+// Nome = alt da imagem; preco atual em .produto-preco-por; .produto-preco-de ("De R$ X por") = preco cheio riscado.
+// IGNORA .preco-unitario (preco por quilo/litro). Sem CEP. Cards duplicam (desktop+mobile) -> dedup por nome.
+async function extratorBigMais(page) {
+  return page.evaluate(() => {
+    const num = s => { const v = parseFloat(String(s).replace(/[^\d,]/g, "").replace(",", ".")); return isNaN(v) ? null : v; };
+    const seen = {}, out = [];
+    document.querySelectorAll("app-produtos-produto, app-produtos-produto-bigmais").forEach(c => {
+      const img = c.querySelector("img.produto-imagem, img[alt]");
+      const nome = ((img && img.getAttribute("alt")) || "").replace(/\s+/g, " ").trim().slice(0, 90);
+      if (!nome || nome.length < 6 || seen[nome]) return;
+      const deEl = c.querySelector(".produto-preco-de");     // preco cheio (riscado), quando em oferta
+      const porEl = c.querySelector(".produto-preco-por");   // preco atual
+      const por = porEl ? num(porEl.textContent) : null;
+      const de = deEl ? num(deEl.textContent) : null;
+      if (por == null && de == null) return;
+      let reg, promo = "";
+      if (de != null && por != null && por < de) { reg = de; promo = por; } else { reg = por != null ? por : de; }
+      if (reg == null) return;
+      seen[nome] = 1;
+      out.push({ descricao: nome, preco_regular: reg, preco_promo: promo, link: location.href,
+        formato: /kit|leve\s*\d|\d\s*un(id)?|combo|c\/\s*\d/i.test(nome) ? "Kit Nun" : "Unidade" });
+    });
+    return out.slice(0, 15);
+  });
+}
+
 const slug = t => t.trim().replace(/\s+/g, "-");
 
+function extratorSlug(seletorAncora) {
+  return async (page) => page.evaluate((sel) => {
+    const limpar = t => t
+      .replace(/\d+\s*x\s*(de\s*)?R\$\s*[\d.,]+/gi, " ")
+      .replace(/em at[eé][^R]*R\$\s*[\d.,]+/gi, " ")
+      .replace(/R\$\s*[\d.,]+\s*\/\s*(l|kg|ml|g|un)/gi, " ");
+    function nomeDoSlug(href) {
+      let segs = (href || "").split("?")[0].split("/").filter(Boolean);
+      let cand = segs.filter(x => /[a-zà-ÿ]/i.test(x) && x.includes("-") && !/^https?:$/.test(x) && x !== "p").map(x => x.replace(/\.html$/, ""));
+      cand.sort((a, b) => b.split("-").length - a.split("-").length);
+      return (cand[0] || "").replace(/-/g, " ").replace(/\b\w/g, c => c.toUpperCase()).trim().slice(0, 90);
+    }
+    const seen = {}, res = [];
+    document.querySelectorAll(sel).forEach(a => {
+      if (/patrocinado|anúncio/i.test(a.innerText || "")) return;
+      const link = (a.href || "").split("?")[0];
+      const nome = nomeDoSlug(a.href || "");
+      if (!nome || nome.length < 6 || seen[link]) return;
+      let el = a, txt = "";
+      for (let i = 0; i < 7 && el; i++) { el = el.parentElement; if (el && /R\$/.test(el.innerText || "")) { txt = el.innerText; break; } }
+      if (!txt) return;
+      const precos = (limpar(txt).match(/R\$\s*\d[\d.]*,\d{2}/g) || [])
+        .map(x => parseFloat(x.replace(/[^\d,]/g, "").replace(".", "").replace(",", ".")))
+        .filter(n => n > 0);
+      if (!precos.length) return;
+      seen[link] = 1;
+      const reg = Math.max(...precos), promo = precos.length > 1 ? Math.min(...precos) : "";
+      res.push({ descricao: nome, preco_regular: reg, preco_promo: promo === reg ? "" : promo, link, formato: /kit|leve\s*\d|\d\s*un|combo/i.test(nome) ? "Kit Nun" : "Unidade" });
+    });
+    return res.slice(0, 15);
+  }, seletorAncora);
+}
+
 module.exports = [
-  { nome: "Araújo",       canal: "Farmácia",    espera: 4000, scroll: true, url: t => `https://www.araujo.com.br/busca?q=${encodeURIComponent(t)}`, extrair: extratorGenerico('a[href$=".html"]') },
-  { nome: "Drogasil",     canal: "Farmácia",    espera: 4000, scroll: true, url: t => `https://www.drogasil.com.br/search?w=${encodeURIComponent(t)}`, extrair: extratorGenerico('a[href*=".html"]') },
-  { nome: "Pague Menos",  canal: "Farmácia",    espera: 3500, scroll: true, url: t => `https://www.paguemenos.com.br/${encodeURIComponent(t)}?_q=${encodeURIComponent(t)}&map=ft`, extrair: extratorGenerico('a[href*="/p"]') },
-  { nome: "Panvel",       canal: "Farmácia",    espera: 3500, scroll: true, url: t => `https://www.panvel.com/panvel/buscarProduto.do?termoPesquisa=${encodeURIComponent(t)}`, extrair: extratorGenerico('a[href*="/p-"]') },
-  { nome: "Carrefour",    canal: "Supermercado", espera: 3500, scroll: true, url: t => `https://www.carrefour.com.br/busca/${encodeURIComponent(t)}`, extrair: extratorGenerico('a[href*="/p"]') },
-  { nome: "Super Sô",     canal: "Supermercado", espera: 3500, scroll: true, url: () => `https://www.superso.com.br/`, prepararBusca: buscaSuperSo, extrair: extratorSuperSo },
+  { nome: "Araújo",       canal: "Farmácia",    espera: 4000, scroll: true, url: t => `https://www.araujo.com.br/busca?q=${encodeURIComponent(t)}`, extrair: extratorSlug('a[href$=".html"]') },
+  { nome: "Drogasil",     canal: "Farmácia",    espera: 4000, scroll: true, url: t => `https://www.drogasil.com.br/search?w=${encodeURIComponent(t)}`, extrair: extratorSlug('a[href*=".html"]') },
+  { nome: "Pague Menos",  canal: "Farmácia",    espera: 3500, scroll: true, url: t => `https://www.paguemenos.com.br/${encodeURIComponent(t)}?_q=${encodeURIComponent(t)}&map=ft`, extrair: extratorSlug('a[href*="/p"]') },
+  { nome: "Panvel",       canal: "Farmácia",    espera: 3500, scroll: true, url: t => `https://www.panvel.com/panvel/buscarProduto.do?termoPesquisa=${encodeURIComponent(t)}`, extrair: extratorSlug('a[href*="/p-"]') },
+  { nome: "Carrefour",    canal: "Supermercado", espera: 3500, scroll: true, url: t => `https://www.carrefour.com.br/busca/${encodeURIComponent(t)}`, extrair: extratorSlug('a[href*="/p"]') },
+  { nome: "Super Sô",     canal: "Supermercado", espera: 3500, scroll: true, filtroRelevancia: true, url: () => `https://www.superso.com.br/`, prepararBusca: buscaSuperSo, extrair: extratorSuperSo },
   { nome: "Lojas Rede",   canal: "Beleza",      espera: 4000, scroll: true, url: t => `https://www.lojasrede.com.br/${encodeURIComponent(t)}?_q=${encodeURIComponent(t)}&map=ft`, extrair: extratorLojasRede },
-  { nome: "Mercado Livre", canal: "Marketplace", espera: 3500, scroll: true, url: t => `https://lista.mercadolivre.com.br/${slug(t)}`, extrair: extratorML },
-  { nome: "Amazon",       canal: "Marketplace", espera: 3500, scroll: true, url: t => `https://www.amazon.com.br/s?k=${encodeURIComponent(t)}`, extrair: extratorAmazon }
+  // seletorPronto = espera INTELIGENTE: segue assim que os cards aparecem (em vez de espera fixa).
+  { nome: "Mercado Livre", canal: "Marketplace", espera: 3500, scroll: true, seletorPronto: ".poly-card", url: t => `https://lista.mercadolivre.com.br/${slug(t)}`, extrair: extratorML },
+  { nome: "Amazon",       canal: "Marketplace", espera: 3500, scroll: true, seletorPronto: 'div[data-component-type="s-search-result"]', url: t => `https://www.amazon.com.br/s?k=${encodeURIComponent(t)}`, extrair: extratorAmazon },
+  // Supermercados MG na plataforma Big Mais (Angular). Sem CEP; ABC e Rex tambem vendem Avante.
+  // filtroRelevancia: a busca deles casa qualquer palavra do termo -> filtra fora-da-familia (lib-relevancia).
+  { nome: "Super ABC",    canal: "Supermercado", espera: 4500, scroll: true, filtroRelevancia: true, seletorPronto: "app-produtos-produto, app-produtos-produto-bigmais", url: t => `https://superabconline.com.br/p/busca/${encodeURIComponent(t)}`, extrair: extratorBigMais },
+  { nome: "Rex Delivery", canal: "Supermercado", espera: 4500, scroll: true, filtroRelevancia: true, seletorPronto: "app-produtos-produto, app-produtos-produto-bigmais", url: t => `https://loja.rexdelivery.com.br/p/busca/${encodeURIComponent(t)}`, extrair: extratorBigMais },
+  { nome: "Rena em Casa", canal: "Supermercado", espera: 4500, scroll: true, filtroRelevancia: true, seletorPronto: "app-produtos-produto, app-produtos-produto-bigmais", url: t => `https://www.renaemcasa.com.br/p/busca/${encodeURIComponent(t)}`, extrair: extratorBigMais }
 ];

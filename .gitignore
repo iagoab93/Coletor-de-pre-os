@@ -6,3 +6,14 @@ Thumbs.db
 .DS_Store
 # logs de execução (não precisam ir pro repositório)
 log-coleta.txt
+log-agendador.txt
+# SEGREDO: token do bot do Telegram — NUNCA versionar
+telegram.config.json
+scraper/telegram.config.json
+# snapshots de historico do resumo semanal (crescem a cada coleta; nao precisam ir pro repo)
+data/historico/
+# kits do ML/Shopee (dados regeneraveis pelos .bat)
+ML_Kits.csv
+Shopee_Kits_Auto.csv
+# saida do modo teste/parcial do scraper (SITES=... / MAX_FAM=...)
+data/coleta-teste.csv

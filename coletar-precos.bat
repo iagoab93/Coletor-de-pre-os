@@ -23,8 +23,19 @@ echo.
 echo Consolidando...
 node consolidar.js
 echo.
+echo Gerando Excel...
+call npm install exceljs --silent
+node gerar-excel.js
+echo.
+echo Gerando alertas de concorrencia...
+node gerar-alertas.js
+echo.
+echo Gerando resumo de mudancas (vs coleta anterior)...
+node resumo-semanal.js
+echo.
 echo ============================================================
-echo    FIM. Veja acima (e no arquivo data\ultimo-resumo.txt) a
-echo    lista de "buscas que voltaram 0".
+echo    FIM. Os arquivos gerados estao na pasta "Coletas"
+echo    (Excel do dia, alertas e resumo). Abrindo a pasta...
 echo ============================================================
+start "" "%~dp0..\Coletas"
 pause

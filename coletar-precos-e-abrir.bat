@@ -24,6 +24,10 @@ echo.
 echo Consolidando...
 node consolidar.js
 echo.
+echo Gerando Excel...
+call npm install exceljs --silent
+node gerar-excel.js
+echo.
 echo ============================================================
 echo    FIM. Veja acima (e no arquivo data\ultimo-resumo.txt) a
 echo    lista de "buscas que voltaram 0".

@@ -1,0 +1,10 @@
+{
+  "_ajuda": "Renomeie para telegram.config.json e preencha. NAO versione o arquivo real (ja esta no .gitignore).",
+  "_token": "Token do bot: no Telegram fale com @BotFather -> /newbot. So voce (dono) precisa criar UM bot.",
+  "_destinatarios": "chatIds = lista de quem recebe. Cada pessoa: (1) manda /start pro SEU bot, (2) pega o ID dela no @userinfobot e te passa. Ninguem mais cria bot.",
+  "botToken": "COLE_AQUI_O_TOKEN_DO_BOTFATHER",
+  "chatIds": [
+    "COLE_AQUI_O_ID_DA_PRIMEIRA_PESSOA",
+    "OUTRO_ID_OPCIONAL"
+  ]
+}

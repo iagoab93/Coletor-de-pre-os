@@ -2,10 +2,9 @@
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
-const sites = require("./sites");
+const sites = require("./sites-ampliada");
 const itens = require("./itens");
 const MARCAS = itens.MARCAS;
-const { relevante } = require("./lib-relevancia");
 
 const HOJE = new Date().toISOString().slice(0, 10);
 const DATA_DIR = path.join(__dirname, "..", "data");
@@ -13,25 +12,11 @@ const CSV = path.join(DATA_DIR, "precos.csv");
 const JSON_OUT = path.join(DATA_DIR, "precos.json");
 const CAB = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição","Tamanho","Preço regular","Preço promo","Disponibilidade","Vendido por","Loja oficial?","Nota","Nº avaliações","Qtd vendida","Link","Formato","Fonte"];
 
-// Precompila as regex das marcas UMA vez (antes recriava ~70 RegExp por produto).
-const MARCAS_RE = MARCAS.map(m => ({ m, re: new RegExp("\\b" + m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i") }));
-const detectarMarca = nome => ((MARCAS_RE.find(({ re }) => re.test(nome)) || {}).m || (nome.split(" ")[0] || "")).trim();
+const detectarMarca = nome => (MARCAS.find(m => new RegExp("\\b" + m.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i").test(nome)) || (nome.split(" ")[0] || "")).trim();
 const detectarTamanho = nome => { const m = (nome || "").match(/(\d+[.,]?\d*)\s?(ml|kg|g|l)\b/i); return m ? m[1].replace(".", "") + m[2].toLowerCase() : ""; };
 const br = n => (n === "" || n == null) ? "" : String(n).replace(".", ",");
 const semAcento = s => String(s ?? "").normalize("NFD").replace(/\p{Diacritic}/gu, "");
-// Neutraliza injecao de formula: nome raspado da web comecando com = + - @ vira texto no Excel.
-const antiFormula = v => /^[=+\-@\t\r]/.test(v) ? "'" + v : v;
-const csvEscape = v => { v = antiFormula(String(v ?? "").replace(/[\r\n]+/g, " ").trim()); return /[;"]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
-// Espera bloqueante SEM gastar CPU (substitui o busy-wait que travava um nucleo em 100%).
-const dormirBloq = ms => { try { Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms); } catch (e) { const t = Date.now() + ms; while (Date.now() < t) {} } };
-
-// Modo PARCIAL/TESTE: SITES="Super ABC,Amazon" e/ou MAX_FAM=3 -> roda so o recorte e grava em
-// coleta-teste.csv (NAO sobrescreve a coleta-local.csv nem o ultimo-resumo.txt).
-// Util p/ recoletar UM site que falhou sem rodar os 40 min inteiros.
-const SO_SITES = (process.env.SITES || "").split(",").map(s => s.trim()).filter(Boolean);
-const MAX_FAM = process.env.MAX_FAM ? +process.env.MAX_FAM : itens.length;
-const MODO_TESTE = SO_SITES.length > 0 || MAX_FAM < itens.length;
-const querSite = s => !SO_SITES.length || SO_SITES.some(q => semAcento(s.nome).toLowerCase() === semAcento(q).toLowerCase());
+const csvEscape = v => { v = String(v ?? "").replace(/[\r\n]+/g, " ").trim(); return /[;"]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
 
 async function rolar(page) {
   try { await page.evaluate(async () => { for (let i = 0; i < 6; i++) { window.scrollBy(0, 1400); await new Promise(r => setTimeout(r, 500)); } window.scrollTo(0, 0); }); } catch (e) {}
@@ -41,27 +26,18 @@ async function rolar(page) {
   const { lancar } = require("./navegador");
   const ctx = await lancar();
   const linhas = [], zeros = [], falhas = [];
-  if (MODO_TESTE) console.log(`[MODO TESTE] sites=${SO_SITES.join("+") || "todos"} familias=${MAX_FAM} -> grava coleta-teste.csv`);
-  for (const site of sites.filter(querSite)) {
-    for (const item of itens.slice(0, MAX_FAM)) {
+  for (const site of sites) {
+    for (const item of itens) {
       const page = await ctx.newPage();
       let n = 0;
       try {
         await page.goto(site.url(item.termo), { waitUntil: "domcontentloaded", timeout: 35000 });
-        if (site.seletorPronto) {
-          // espera INTELIGENTE: segue assim que os cards aparecem (no maximo site.espera ms) + settle curto
-          await page.waitForSelector(site.seletorPronto, { timeout: site.espera || 3500 }).catch(() => {});
-          await page.waitForTimeout(1200);
-        } else {
-          await page.waitForLoadState("networkidle", { timeout: 8000 }).catch(() => {});
-          await page.waitForTimeout(site.espera || 3500);
-        }
+        await page.waitForLoadState("networkidle", { timeout: 8000 }).catch(() => {});
+        await page.waitForTimeout(site.espera || 3500);
         if (site.prepararBusca) await site.prepararBusca(page, item.termo);
         if (site.scroll) { await rolar(page); await page.waitForTimeout(1200); }
         let prods = await site.extrair(page);
         prods = prods.map(p => ({ ...p, marca: detectarMarca(p.descricao), tamanho: detectarTamanho(p.descricao) })).filter(p => p.preco_regular);
-        // Supermercados casam qualquer palavra do termo -> filtra produtos fora da familia.
-        if (site.filtroRelevancia) prods = prods.filter(p => relevante(item.cat, p.descricao));
         n = prods.length;
         for (const p of prods.slice(0, 12)) {
           linhas.push({ Data_coleta: HOJE, Canal: site.canal, Site: semAcento(site.nome), Categoria: semAcento(item.cat),
@@ -82,14 +58,14 @@ async function rolar(page) {
 
   fs.mkdirSync(DATA_DIR, { recursive: true });
   // Grava ESTA coleta num arquivo proprio (nao disputa o precos.csv travado). Com espera+retry se estiver travado.
-  const LOCAL = path.join(DATA_DIR, MODO_TESTE ? "coleta-teste.csv" : "coleta-local.csv");
+  const LOCAL = path.join(DATA_DIR, "coleta-ampliada.csv");
   const conteudo = CAB.join(";") + "\n" + linhas.map(l => CAB.map(c => csvEscape(l[c])).join(";")).join("\n") + "\n";
   function gravarSeguro(alvo, txt) {
     for (let i = 0; i < 5; i++) {
       try { fs.writeFileSync(alvo, txt); return alvo; }
       catch (e) {
         if (e.code !== "EBUSY" && e.code !== "EPERM" && e.code !== "EACCES") throw e;
-        dormirBloq(1500); // espera curta; lock do OneDrive/Excel costuma soltar
+        const ate = Date.now() + 1500; while (Date.now() < ate) {} // espera curta; lock do OneDrive/Excel costuma soltar
       }
     }
     const alt = alvo.replace(/(\.[^.]+)$/, "_novo$1");
@@ -104,5 +80,5 @@ async function rolar(page) {
   if (falhas.length) console.log(`\n[X] ${falhas.length} falhas:\n  ` + falhas.join("\n  "));
 
   const resumo = `Coleta ${HOJE}\n+${linhas.length} linhas coletadas | historico total ${todas.length}\n\n=== Buscas que voltaram 0 (${zeros.length}) ===\n` + (zeros.join("\n") || "(nenhuma)") + `\n\n=== Falhas (${falhas.length}) ===\n` + (falhas.join("\n") || "(nenhuma)") + "\n";
-  if (!MODO_TESTE) { try { fs.writeFileSync(path.join(DATA_DIR, "ultimo-resumo.txt"), resumo); } catch (e) {} }
+  try { fs.writeFileSync(path.join(DATA_DIR, "ultimo-resumo-ampliada.txt"), resumo); } catch (e) {}
 })();

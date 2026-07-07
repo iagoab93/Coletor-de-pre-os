@@ -38,12 +38,30 @@
   <select id="fFormato"><option value="">Unidade + Kit</option><option value="Unidade">Só unidades</option><option value="Kit">Só kits</option></select>
   <input id="busca" placeholder="buscar na descrição…" size="24">
   <label style="font-size:13px"><input type="checkbox" id="soPromo"> só promoção</label>
+  <button id="btnExcel" style="padding:8px 12px;border:0;border-radius:8px;background:#2e7d32;color:#fff;font-size:13px;font-weight:bold;cursor:pointer">⬇ Baixar Excel</button>
 </div>
 <div class="wrap"><table id="tab"><thead></thead><tbody></tbody></table></div>
 <div class="tag">Monitor de Preços Avante · coleta local semanal · R$/100 = preço por 100ml/g</div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="./data/precos-data.js"></script>
 <script>
+const COLS_XLS = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição","Tamanho","Preço regular","Preço promo","Disponibilidade","Vendido por","Loja oficial?","Nota","Nº avaliações","Qtd vendida","Link","Formato","Fonte"];
+function baixarExcel(){
+  const src = (window.linhasFiltradas && window.linhasFiltradas.length) ? window.linhasFiltradas : dados;
+  if (typeof XLSX !== "undefined") {
+    const aoa = [COLS_XLS].concat(src.map(r => COLS_XLS.map(c => r[c] ?? "")));
+    const ws = XLSX.utils.aoa_to_sheet(aoa);
+    ws["!autofilter"] = { ref: "A1:R" + aoa.length };
+    const wb = XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb, ws, "Precos");
+    XLSX.writeFile(wb, "Precos_Monitor.xlsx");
+  } else {
+    const linhas = [COLS_XLS.join(";")].concat(src.map(r => COLS_XLS.map(c => String(r[c] ?? "").replace(/[;\r\n]+/g, " ")).join(";")));
+    const blob = new Blob(["﻿" + linhas.join("\n")], { type: "text/csv;charset=utf-8" });
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "Precos_Monitor.csv"; a.click();
+  }
+}
+document.getElementById("btnExcel").onclick = baixarExcel;
 const COLS = ["Data_coleta","Canal","Site","Categoria","Marca","Descrição","Tamanho","Preço regular","Preço promo","R$/100","Link","Fonte","Formato"];
 let dados=[];
 const num = s => parseFloat(String(s||"").replace(".","").replace(",","."))||0;
