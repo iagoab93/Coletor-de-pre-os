@@ -1,48 +1,107 @@
-Coleta 2026-07-04
-+3368 linhas coletadas | historico total 3368
+Coleta 2026-07-13
++3032 linhas coletadas | historico total 3032
 
-=== Buscas que voltaram 0 (43) ===
+=== Buscas que voltaram 0 (102) ===
+Drogasil / removedor de esmalte acetona
+Panvel / removedor de esmalte acetona
 Panvel / oxigenada ox estabilizada 40 volumes
 Panvel / amaciante de calosidade
+Carrefour / gota secante esmalte
+Super Sô / removedor de esmalte acetona
 Super Sô / removedor de esmalte sem acetona
 Super Sô / gota secante esmalte
 Super Sô / agua oxigenada cremosa 40 volumes
 Super Sô / oxigenada ox estabilizada 40 volumes
 Super Sô / oleo finalizador capilar
+Super Sô / oleo de ricino
+Super Sô / oleo de banana unha
+Super Sô / creme de cacau corporal
+Super Sô / canela de velho creme
+Super Sô / esfoliante corporal
+Super Sô / seiva de flores
+Super Sô / amaciante de calosidade
 Super Sô / amolecedor de cuticula
 Super Sô / creme luva de silicone
 Super Sô / pedra hume spray
 Super Sô / talco para os pes
 Super Sô / talco para pes mentolado
+Super Sô / reparador de pontas
+Super Sô / vaselina liquida
 Super Sô / vaselina solida
+Super Sô / pasta d agua mentol
+Super Sô / pomada de ureia pes
+Super ABC / removedor de esmalte acetona
+Super ABC / removedor de esmalte sem acetona
+Super ABC / gota secante esmalte
 Super ABC / oleo finalizador capilar
 Super ABC / oleo de banana unha
+Super ABC / creme de cacau corporal
+Super ABC / canela de velho creme
 Super ABC / esfoliante corporal
+Super ABC / seiva de flores
+Super ABC / amaciante de calosidade
 Super ABC / amolecedor de cuticula
+Super ABC / creme luva de silicone
+Super ABC / pedra hume po
+Super ABC / talco para os pes
 Super ABC / talco para pes mentolado
 Super ABC / reparador de pontas
 Super ABC / sabonete liquido corporal
 Super ABC / glicerina bidestilada
+Super ABC / pasta d agua mentol
+Super ABC / pomada de ureia pes
 Super ABC / sebo de carneiro
+Rex Delivery / removedor de esmalte acetona
+Rex Delivery / removedor de esmalte sem acetona
+Rex Delivery / agua oxigenada cremosa 40 volumes
 Rex Delivery / oxigenada ox estabilizada 40 volumes
 Rex Delivery / solucao de amonia
+Rex Delivery / oleo capilar corporal
+Rex Delivery / oleo finalizador capilar
+Rex Delivery / oleo de banana unha
 Rex Delivery / creme de cacau corporal
+Rex Delivery / canela de velho creme
+Rex Delivery / locao hidratante corporal
 Rex Delivery / esfoliante corporal
+Rex Delivery / seiva de flores
 Rex Delivery / amaciante de calosidade
 Rex Delivery / amolecedor de cuticula
+Rex Delivery / creme luva de silicone
+Rex Delivery / pedra hume po
 Rex Delivery / pedra hume spray
 Rex Delivery / talco para pes mentolado
+Rex Delivery / sabonete intimo
+Rex Delivery / sabonete oleo de banho
+Rex Delivery / glicerina bidestilada
 Rex Delivery / vaselina liquida
+Rex Delivery / pasta d agua mentol
+Rex Delivery / pomada de ureia pes
+Rena em Casa / removedor de esmalte acetona
+Rena em Casa / gota secante esmalte
+Rena em Casa / solucao de amonia
+Rena em Casa / oleo capilar corporal
 Rena em Casa / oleo finalizador capilar
 Rena em Casa / oleo de girassol corporal
 Rena em Casa / oleo de ricino
-Rena em Casa / amolecedor de cuticula
+Rena em Casa / oleo de banana unha
+Rena em Casa / creme de cacau corporal
+Rena em Casa / canela de velho creme
+Rena em Casa / locao hidratante corporal
+Rena em Casa / esfoliante corporal
+Rena em Casa / seiva de flores
+Rena em Casa / amaciante de calosidade
+Rena em Casa / creme luva de silicone
+Rena em Casa / pedra hume po
+Rena em Casa / pedra hume spray
+Rena em Casa / talco para os pes
 Rena em Casa / talco para pes mentolado
 Rena em Casa / sabonete oleo de banho
 Rena em Casa / glicerina bidestilada
+Rena em Casa / vaselina liquida
 Rena em Casa / vaselina solida
 Rena em Casa / essencia de eucalipto
 Rena em Casa / agua micelar
+Rena em Casa / pasta d agua mentol
 Rena em Casa / pomada de ureia pes
 Rena em Casa / sebo de carneiro
 

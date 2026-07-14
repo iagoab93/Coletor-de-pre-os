@@ -1,1 +1,96 @@
 ---- 07/07/2026  9:00:01,62 ---- 
+warning: in the working copy of '.gitignore', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'coletar-precos-e-abrir.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'coletar-precos.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/beleza.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/marketplaces.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'index.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/consolidar.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/navegador.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/package.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/scraper.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/sites.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'agendador.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'alertas.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'analises.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'coleta-agendada.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/alertas.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/beleza_backup.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/beleza_backup_2026-07-06.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/coleta-local.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/marketplaces_backup_2026-07-07.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/ultimo-resumo.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'diagnostico.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'gerar-alertas.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'gerar-excel.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'instalar-agendador.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'kits-mercadolivre.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'kits-shopee.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'remover-agendador.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'resumo-semanal.bat', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'resumo-semanal.html', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/coletar-kits-ml.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/coletar-kits-shopee.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/consolidar-kits.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/diagnostico.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/gerar-alertas.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/gerar-analises.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/gerar-excel.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/lib-alertas.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/lib-relevancia.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/notificar-popup.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/notificar-telegram.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/resumo-semanal.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/scraper-ampliada.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/shopee-login.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/sites-ampliada.js', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/telegram.config.example.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'shopee-login.bat', LF will be replaced by CRLF the next time Git touches it
+[main e3487d6] atualizar dados automatico
+ 56 files changed, 7103 insertions(+), 779 deletions(-)
+ create mode 100644 Precos_Monitor.xlsx
+ create mode 100644 agendador.ps1
+ create mode 100644 alertas.csv
+ create mode 100644 alertas.html
+ create mode 100644 analises.bat
+ create mode 100644 coleta-agendada.bat
+ create mode 100644 coletar-precos-AMPLIADA.bat
+ create mode 100644 data/alertas.json
+ create mode 100644 data/beleza_backup.csv
+ create mode 100644 data/beleza_backup_2026-07-06.csv
+ create mode 100644 data/coleta-local.csv
+ create mode 100644 data/marketplaces_backup_2026-07-07.csv
+ delete mode 100644 data/precos_formato_antigo.csv
+ delete mode 100644 data/super-so.xlsx
+ create mode 100644 data/ultimo-resumo.txt
+ create mode 100644 diagnostico.bat
+ create mode 100644 gerar-alertas.bat
+ create mode 100644 gerar-excel.bat
+ create mode 100644 instalar-agendador.bat
+ create mode 100644 kits-mercadolivre.bat
+ create mode 100644 kits-shopee.bat
+ create mode 100644 log-envio.txt
+ create mode 100644 remover-agendador.bat
+ create mode 100644 resumo-semanal.bat
+ create mode 100644 resumo-semanal.html
+ create mode 100644 scraper/coletar-kits-ml.js
+ create mode 100644 scraper/coletar-kits-shopee.js
+ create mode 100644 scraper/consolidar-kits.js
+ create mode 100644 scraper/diagnostico.js
+ create mode 100644 scraper/gerar-alertas.js
+ create mode 100644 scraper/gerar-analises.js
+ create mode 100644 scraper/gerar-excel.js
+ create mode 100644 scraper/lib-alertas.js
+ create mode 100644 scraper/lib-relevancia.js
+ create mode 100644 scraper/notificar-popup.js
+ create mode 100644 scraper/notificar-telegram.js
+ create mode 100644 scraper/resumo-semanal.js
+ create mode 100644 scraper/scraper-ampliada.js
+ create mode 100644 scraper/shopee-login.js
+ create mode 100644 scraper/sites-ampliada.js
+ create mode 100644 scraper/telegram.config.example.json
+ create mode 100644 shopee-login.bat
+To https://github.com/iagoab93/Coletor-de-pre-os.git
+   fa601a4..e3487d6  main -> main
+---- 14/07/2026  9:00:15,71 ---- 
