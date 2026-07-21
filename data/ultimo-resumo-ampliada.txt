@@ -1,0 +1,102 @@
+Coleta 2026-07-15
++4598 linhas coletadas | historico total 4598
+
+=== Buscas que voltaram 0 (43) ===
+Panvel / oxigenada ox estabilizada 40 volumes
+Carrefour / gota secante esmalte
+Super Sô / removedor de esmalte sem acetona
+Super Sô / gota secante esmalte
+Super Sô / agua oxigenada cremosa 40 volumes
+Super Sô / oxigenada ox estabilizada 40 volumes
+Super Sô / oleo finalizador capilar
+Super Sô / amolecedor de cuticula
+Super Sô / creme luva de silicone
+Super Sô / pedra hume po
+Super Sô / pedra hume spray
+Super Sô / talco para os pes
+Super Sô / sabonete liquido corporal
+Super Sô / vaselina solida
+Super ABC / oleo finalizador capilar
+Super ABC / oleo de banana unha
+Super ABC / esfoliante corporal
+Super ABC / amolecedor de cuticula
+Super ABC / talco para pes mentolado
+Super ABC / reparador de pontas
+Super ABC / sabonete liquido corporal
+Super ABC / glicerina bidestilada
+Super ABC / sebo de carneiro
+Rex Delivery / oxigenada ox estabilizada 40 volumes
+Rex Delivery / solucao de amonia
+Rex Delivery / creme de cacau corporal
+Rex Delivery / esfoliante corporal
+Rex Delivery / amaciante de calosidade
+Rex Delivery / amolecedor de cuticula
+Rex Delivery / pedra hume spray
+Rex Delivery / talco para pes mentolado
+Rex Delivery / vaselina liquida
+Rena em Casa / oleo finalizador capilar
+Rena em Casa / oleo de girassol corporal
+Rena em Casa / oleo de ricino
+Rena em Casa / talco para pes mentolado
+Rena em Casa / sabonete oleo de banho
+Rena em Casa / glicerina bidestilada
+Rena em Casa / vaselina solida
+Rena em Casa / essencia de eucalipto
+Rena em Casa / agua micelar
+Rena em Casa / pomada de ureia pes
+Rena em Casa / sebo de carneiro
+
+=== Falhas (39) ===
+Araújo / po descolorante cabelo: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Araújo / sabonete intimo: page.goto: net::ERR_NETWORK_CHANGED at https://www.araujo.co
+Araújo / sabonete liquido corporal: page.goto: net::ERR_NETWORK_CHANGED at https://www.araujo.co
+Araújo / sabonete oleo de banho: page.goto: net::ERR_NETWORK_CHANGED at https://www.araujo.co
+Araújo / glicerina bidestilada: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / vaselina liquida: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / vaselina solida: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / essencia de eucalipto: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / agua micelar: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / pasta d agua mentol: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / pomada de ureia pes: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / sebo de carneiro: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Araújo / repelente: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.ara
+Drogasil / removedor de esmalte acetona: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / removedor de esmalte sem acetona: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / gota secante esmalte: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / agua oxigenada cremosa 40 volumes: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oxigenada ox estabilizada 40 volumes: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / solucao de amonia: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oleo capilar corporal: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oleo finalizador capilar: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oleo de girassol corporal: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oleo de ricino: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / oleo de banana unha: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / creme de cacau corporal: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / canela de velho creme: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Drogasil / locao hidratante corporal: page.goto: net::ERR_INTERNET_DISCONNECTED at https://www.dro
+Panvel / amaciante de calosidade: page.goto: net::ERR_ADDRESS_UNREACHABLE at https://www.panve
+Panvel / amolecedor de cuticula: page.goto: net::ERR_ADDRESS_UNREACHABLE at https://www.panve
+Panvel / creme luva de silicone: page.goto: net::ERR_ADDRESS_UNREACHABLE at https://www.panve
+Panvel / pedra hume po: page.goto: net::ERR_ADDRESS_UNREACHABLE at https://www.panve
+Panvel / pedra hume spray: page.goto: net::ERR_NAME_NOT_RESOLVED at https://www.panvel.
+Panvel / talco para os pes: page.goto: net::ERR_NETWORK_CHANGED at https://www.panvel.co
+Super Sô / sabonete oleo de banho: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Lojas Rede / solucao de amonia: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Lojas Rede / oleo capilar corporal: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Lojas Rede / oleo finalizador capilar: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Lojas Rede / oleo de girassol corporal: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig
+Lojas Rede / oleo de ricino: page.goto: Timeout 35000ms exceeded.
+Call log:
+[2m  - navig

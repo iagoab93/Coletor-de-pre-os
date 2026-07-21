@@ -1,13 +1,10 @@
-Coleta 2026-07-13
-+3032 linhas coletadas | historico total 3032
+Coleta 2026-07-20
++3044 linhas coletadas | historico total 3044
 
-=== Buscas que voltaram 0 (102) ===
-Drogasil / removedor de esmalte acetona
-Panvel / removedor de esmalte acetona
+=== Buscas que voltaram 0 (94) ===
 Panvel / oxigenada ox estabilizada 40 volumes
 Panvel / amaciante de calosidade
 Carrefour / gota secante esmalte
-Super Sô / removedor de esmalte acetona
 Super Sô / removedor de esmalte sem acetona
 Super Sô / gota secante esmalte
 Super Sô / agua oxigenada cremosa 40 volumes
@@ -30,8 +27,7 @@ Super Sô / vaselina liquida
 Super Sô / vaselina solida
 Super Sô / pasta d agua mentol
 Super Sô / pomada de ureia pes
-Super ABC / removedor de esmalte acetona
-Super ABC / removedor de esmalte sem acetona
+Lojas Rede / removedor de esmalte acetona
 Super ABC / gota secante esmalte
 Super ABC / oleo finalizador capilar
 Super ABC / oleo de banana unha
@@ -51,8 +47,6 @@ Super ABC / glicerina bidestilada
 Super ABC / pasta d agua mentol
 Super ABC / pomada de ureia pes
 Super ABC / sebo de carneiro
-Rex Delivery / removedor de esmalte acetona
-Rex Delivery / removedor de esmalte sem acetona
 Rex Delivery / agua oxigenada cremosa 40 volumes
 Rex Delivery / oxigenada ox estabilizada 40 volumes
 Rex Delivery / solucao de amonia
@@ -76,10 +70,8 @@ Rex Delivery / glicerina bidestilada
 Rex Delivery / vaselina liquida
 Rex Delivery / pasta d agua mentol
 Rex Delivery / pomada de ureia pes
-Rena em Casa / removedor de esmalte acetona
 Rena em Casa / gota secante esmalte
 Rena em Casa / solucao de amonia
-Rena em Casa / oleo capilar corporal
 Rena em Casa / oleo finalizador capilar
 Rena em Casa / oleo de girassol corporal
 Rena em Casa / oleo de ricino

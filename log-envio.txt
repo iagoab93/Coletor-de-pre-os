@@ -94,3 +94,12 @@ warning: in the working copy of 'shopee-login.bat', LF will be replaced by CRLF 
 To https://github.com/iagoab93/Coletor-de-pre-os.git
    fa601a4..e3487d6  main -> main
 ---- 14/07/2026  9:00:15,71 ---- 
+warning: in the working copy of 'data/alertas.json', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/coleta-local.csv', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'data/ultimo-resumo.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'log-envio.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'scraper/package-lock.json', LF will be replaced by CRLF the next time Git touches it
+[main 09ad41f] atualizar dados automatico
+ 6 files changed, 3230 insertions(+), 3392 deletions(-)
+fatal: unable to access 'https://github.com/iagoab93/Coletor-de-pre-os.git/': Could not resolve host: github.com
+---- 21/07/2026  9:00:02,32 ---- 
